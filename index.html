@@ -3,115 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>PKRAAJ HUB | Permanent Store</title>
+    <title>PKRAAJ HUB | Premium Digital Store</title>
     <style>
-        :root { --primary: #2563eb; --dark: #0f172a; --light: #f1f5f9; --success: #10b981; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; font-family: sans-serif; background: var(--light); padding-bottom: 80px; }
+        :root { --primary: #2563eb; --dark: #0f172a; --light: #f8fafc; --success: #10b981; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Segoe UI', sans-serif; }
+        body { margin: 0; background: var(--light); color: var(--dark); padding-bottom: 60px; }
         
-        header { background: var(--dark); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo { font-weight: 900; font-size: 1.2rem; }
-        .admin-btn { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        /* Header */
+        header { background: var(--dark); color: white; padding: 18px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: 1px; }
+        .admin-link { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 12px; border: 1px solid var(--primary); padding: 4px 10px; border-radius: 5px; }
 
-        /* Form Styling */
-        #postForm { display: none; background: white; padding: 20px; border-bottom: 2px solid #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; }
-        .save-btn { width: 100%; background: var(--success); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        /* Folders/Tabs */
+        .tabs-container { background: white; display: flex; overflow-x: auto; padding: 12px; gap: 10px; border-bottom: 1px solid #e2e8f0; position: sticky; top: 60px; z-index: 99; scrollbar-width: none; }
+        .tab-btn { padding: 8px 22px; border-radius: 25px; border: 1px solid #cbd5e1; background: #fff; white-space: nowrap; font-size: 13px; font-weight: 600; cursor: pointer; color: #64748b; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
 
-        /* Tabs & Container */
-        .tabs { background: white; display: flex; overflow-x: auto; padding: 10px; gap: 10px; border-bottom: 1px solid #ddd; position: sticky; top: 52px; z-index: 99; }
-        .tab { padding: 8px 20px; border-radius: 20px; border: 1px solid #ccc; background: #fff; font-size: 12px; font-weight: bold; white-space: nowrap; }
-        .tab.active { background: var(--primary); color: white; }
-        
-        .container { padding: 15px; }
-        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #eee; }
-        .card-img { height: 150px; display: flex; align-items: center; justify-content: center; font-size: 50px; color: white; }
-        .card-body { padding: 15px; }
-        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-        .btn-buy { background: var(--primary); color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; }
+        /* Main Content */
+        .container { padding: 20px; max-width: 800px; margin: 0 auto; min-height: 70vh; }
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #f1f5f9; transition: 0.3s; }
+        .card-img { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 60px; color: white; }
+        .card-body { padding: 20px; }
+        .card-title { font-size: 1.3rem; font-weight: 800; margin: 0 0 10px 0; color: #1e293b; }
+        .card-text { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 15px; }
+        .price { font-weight: 900; font-size: 1.5rem; color: var(--dark); }
+        .buy-btn { background: var(--primary); color: white; text-decoration: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+
+        /* Footer Pages (AdSense Requirement) */
+        footer { background: #fff; padding: 30px 20px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 15px; }
+        .footer-links a { color: #64748b; text-decoration: none; font-size: 12px; font-weight: 600; }
+        .copyright { font-size: 11px; color: #94a3b8; }
+
+        /* Dynamic Page Overlay */
+        #pageOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1000; overflow-y: auto; padding: 20px; }
+        .close-page { position: fixed; top: 20px; right: 20px; background: var(--dark); color: white; border: none; padding: 10px; border-radius: 50%; width: 40px; height: 40px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo">PKRAAJ HUB</div>
-    <button class="admin-btn" onclick="document.getElementById('postForm').style.display='block'">+ NEW POST</button>
+    <a href="https://github.com" class="admin-link">ADMIN</a>
 </header>
 
-<div id="postForm">
-    <input type="text" id="pName" placeholder="Product Name">
-    <input type="text" id="pLink" placeholder="Download/Buy Link (URL)">
-    <input type="text" id="pPrice" placeholder="Price (e.g. ₹299 or FREE)">
-    <select id="pFolder">
-        <option value="blogger">Blogger</option>
-        <option value="wordpress">WordPress</option>
-        <option value="apps">Apps</option>
-    </select>
-    <button class="save-btn" onclick="savePost()">POST PERMANENTLY</button>
-    <button onclick="document.getElementById('postForm').style.display='none'" style="width:100%; background:none; border:none; color:red; margin-top:10px;">Close</button>
+<div class="tabs-container">
+    <button class="tab-btn active" onclick="showCat('all', this)">All Products</button>
+    <button class="tab-btn" onclick="showCat('blogger', this)">Blogger</button>
+    <button class="tab-btn" onclick="showCat('wordpress', this)">WordPress</button>
+    <button class="tab-btn" onclick="showCat('apps', this)">Apps</button>
 </div>
 
-<div class="tabs">
-    <button class="tab active" onclick="filter('all')">All</button>
-    <button class="tab" onclick="filter('blogger')">Blogger</button>
-    <button class="tab" onclick="filter('wordpress')">WordPress</button>
-    <button class="tab" onclick="filter('apps')">Apps</button>
+<div class="container" id="mainStore">
+    <div class="card blogger">
+        <div class="card-img" style="background: linear-gradient(45deg, #2563eb, #3b82f6);">🎨</div>
+        <div class="card-body">
+            <h3 class="card-title">SEO Master Pro v2</h3>
+            <p class="card-text">यह एक प्रीमियम ब्लॉगर थीम है जो फ़ास्ट लोडिंग और SEO फ्रेंडली है। इसमें डार्क मोड और कस्टमाइज़ेबल विगेट्स मिलते हैं।</p>
+            <div class="card-footer">
+                <span class="price">₹299</span>
+                <a href="https://wa.me/919306930312" class="buy-btn">Buy Now</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card wordpress">
+        <div class="card-img" style="background: linear-gradient(45deg, #764abc, #9333ea);">🌐</div>
+        <div class="card-body">
+            <h3 class="card-title">NewsMag WP Theme</h3>
+            <p class="card-text">वर्डप्रेस के लिए सबसे बेहतरीन न्यूज़ थीम। इसमें गूगल एडसेंस के लिए खास जगह दी गई है जिससे कमाई बढ़ती है।</p>
+            <div class="card-footer">
+                <span class="price">₹499</span>
+                <a href="https://wa.me/919306930312" class="buy-btn">Buy Now</a>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="container" id="postContainer"></div>
+<footer>
+    <div class="footer-links">
+        <a href="#" onclick="openPage('About Us', 'PKRAAJ HUB एक डिजिटल स्टोर है जहाँ हम ब्लॉगर और वर्डप्रेस के लिए प्रीमियम थीम्स और ऐप्स प्रदान करते हैं। हमारा लक्ष्य यूज़र्स को कम कीमत में बेहतरीन टूल्स देना है।')">About Us</a>
+        <a href="#" onclick="openPage('Privacy Policy', 'हम अपने यूज़र्स की प्राइवेसी का पूरा ध्यान रखते हैं। आपकी कोई भी पर्सनल जानकारी बिना अनुमति के शेयर नहीं की जाती। हम सुरक्षित पेमेंट गेटवे का उपयोग करते हैं।')">Privacy Policy</a>
+        <a href="#" onclick="openPage('Contact Us', 'Support Email: support@pkraaj.com <br> WhatsApp: +91 9306930312 <br> Address: Haryana, India')">Contact Us</a>
+        <a href="#" onclick="openPage('Disclaimer', 'यह साइट केवल डिजिटल प्रोडक्ट्स की जानकारी के लिए है। हम किसी भी थर्ड पार्टी टूल के गलत इस्तेमाल की जिम्मेदारी नहीं लेते।')">Disclaimer</a>
+    </div>
+    <div class="copyright">© 2026 PKRAAJ HUB. All Rights Reserved.</div>
+</footer>
+
+<div id="pageOverlay">
+    <button class="close-page" onclick="closePage()">X</button>
+    <h1 id="pageTitle" style="margin-top:60px; color:var(--dark);"></h1>
+    <hr>
+    <div id="pageBody" style="line-height:1.8; color:#475569; font-size:16px;"></div>
+</div>
 
 <script>
-    // पेज लोड होते ही पुरानी पोस्ट दिखाओ
-    window.onload = function() { loadPosts(); };
+    function showCat(id, btn) {
+        let tabs = document.querySelectorAll('.tab-btn');
+        tabs.forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
 
-    function savePost() {
-        let name = document.getElementById('pName').value;
-        let link = document.getElementById('pLink').value;
-        let price = document.getElementById('pPrice').value;
-        let folder = document.getElementById('pFolder').value;
-
-        if(!name || !link) return alert("Details भरें!");
-
-        let postData = { name, link, price, folder };
-        
-        // पुरानी पोस्ट निकालो और नयी जोड़ो
-        let posts = JSON.parse(localStorage.getItem('myPosts') || '[]');
-        posts.push(postData);
-        localStorage.setItem('myPosts', JSON.stringify(posts));
-
-        document.getElementById('postForm').style.display='none';
-        loadPosts();
-    }
-
-    function loadPosts() {
-        let posts = JSON.parse(localStorage.getItem('myPosts') || '[]');
-        let container = document.getElementById('postContainer');
-        container.innerHTML = '';
-
-        posts.forEach(post => {
-            let color = post.folder === 'blogger' ? '#2563eb' : post.folder === 'apps' ? '#f59e0b' : '#764abc';
-            let icon = post.folder === 'blogger' ? '🎨' : post.folder === 'apps' ? '📱' : '🌐';
-            
-            container.innerHTML += `
-                <div class="card ${post.folder}">
-                    <div class="card-img" style="background:${color}">${icon}</div>
-                    <div class="card-body">
-                        <h3 style="margin:0">${post.name}</h3>
-                        <div class="card-footer">
-                            <span style="font-weight:900; font-size:1.2rem;">${post.price}</span>
-                            <a href="${post.link}" class="btn-buy" style="background:${post.price === 'FREE' ? '#10b981' : '#2563eb'}">${post.price === 'FREE' ? 'Download' : 'Buy Now'}</a>
-                        </div>
-                    </div>
-                </div>`;
-        });
-    }
-
-    function filter(cat) {
         let cards = document.querySelectorAll('.card');
         cards.forEach(c => {
-            if(cat === 'all') c.style.display = 'block';
-            else c.classList.contains(cat) ? c.style.display = 'block' : c.style.display = 'none';
+            if(id === 'all') c.style.display = 'block';
+            else c.classList.contains(id) ? c.style.display = 'block' : c.style.display = 'none';
         });
+    }
+
+    function openPage(title, body) {
+        document.getElementById('pageTitle').innerText = title;
+        document.getElementById('pageBody').innerHTML = body;
+        document.getElementById('pageOverlay').style.display = 'block';
+        window.scrollTo(0,0);
+    }
+
+    function closePage() {
+        document.getElementById('pageOverlay').style.display = 'none';
     }
 </script>
 
