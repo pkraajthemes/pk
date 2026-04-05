@@ -3,249 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PKRAAJ HUB PRO</title>
+<title>LOCAL ADMIN</title>
 
 <style>
-:root{
-  --primary:#2563eb;
-  --dark:#0f172a;
-  --light:#f1f5f9;
-  --danger:#ef4444;
-  --edit:#f59e0b;
-}
-
-body{
-  margin:0;
-  font-family:sans-serif;
-  background:var(--light);
-}
-
-header{
-  background:var(--dark);
-  color:#fff;
-  padding:15px;
-  text-align:center;
-  font-size:18px;
-  font-weight:bold;
-}
-
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:15px;
-}
-
-.form{
-  background:#fff;
-  padding:15px;
-  border-radius:15px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.1);
-  margin-bottom:20px;
-}
-
-input,textarea{
-  width:100%;
-  padding:12px;
-  margin:6px 0;
-  border-radius:10px;
-  border:1px solid #ccc;
-}
-
-button{
-  border:none;
-  padding:12px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.add{
-  background:green;
-  color:#fff;
-  width:100%;
-}
-
-.cards{
-  display:grid;
-  gap:15px;
-}
-
-.card{
-  background:#fff;
-  border-radius:15px;
-  overflow:hidden;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
-  position:relative;
-}
-
-.card img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-}
-
-.card-body{
-  padding:15px;
-}
-
-.title{
-  font-size:18px;
-  font-weight:bold;
-}
-
-.desc{
-  color:#555;
-  font-size:14px;
-}
-
-.price{
-  font-weight:bold;
-  color:var(--primary);
-}
-
-.actions{
-  position:absolute;
-  top:10px;
-  right:10px;
-  display:flex;
-  gap:5px;
-}
-
-.edit{
-  background:var(--edit);
-  color:#fff;
-}
-
-.delete{
-  background:var(--danger);
-  color:#fff;
-}
-
-a{
-  display:inline-block;
-  margin-top:10px;
-  background:var(--primary);
-  color:#fff;
-  padding:8px 15px;
-  border-radius:8px;
-  text-decoration:none;
-}
+body{font-family:sans-serif;background:#f1f5f9;margin:0}
+.container{padding:15px;max-width:800px;margin:auto}
+input,textarea{width:100%;padding:10px;margin:5px 0}
+button{padding:10px;margin:5px;border:none;border-radius:6px;cursor:pointer}
+.add{background:green;color:#fff}
+.card{background:#fff;padding:10px;margin-top:10px;border-radius:10px}
 </style>
-
 </head>
-<body>
 
-<header>🔥 PKRAAJ HUB ADMIN PRO</header>
+<body>
 
 <div class="container">
 
-<div class="form">
-<input id="name" placeholder="Item Name">
-<input id="price" placeholder="Price">
+<input id="name" placeholder="Name">
 <input id="link" placeholder="Link">
-<input id="img" placeholder="Image URL">
 <textarea id="desc" placeholder="Description"></textarea>
 
-<button class="add" id="addBtn">ADD POST</button>
+<button class="add" onclick="addPost()">ADD</button>
+
+<div id="posts"></div>
+
 </div>
 
-<div class="cards" id="posts"></div>
+<script>
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+let editIndex = null;
 
-</div>
+function save(){
+  localStorage.setItem("posts", JSON.stringify(posts));
+}
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyC5FXO_xlO0qXGSnGWE62GYSD9hXwcErjE",
-  authDomain: "mybloglikes-95f54.firebaseapp.com",
-  databaseURL: "https://mybloglikes-95f54-default-rtdb.firebaseio.com",
-  projectId: "mybloglikes-95f54"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-let editKey = null;
-
-// ADD / UPDATE
-document.getElementById("addBtn").onclick = () => {
+function addPost(){
   const name = document.getElementById("name").value;
-  const price = document.getElementById("price").value;
   const link = document.getElementById("link").value;
-  const img = document.getElementById("img").value;
   const desc = document.getElementById("desc").value;
 
   if(!name || !link){
-    alert("Fill required fields");
+    alert("Fill karo");
     return;
   }
 
-  if(editKey){
-    update(ref(db,"posts/"+editKey),{name,price,link,img,desc});
-    editKey=null;
-    addBtn.innerText="ADD POST";
+  if(editIndex !== null){
+    posts[editIndex] = {name,link,desc};
+    editIndex = null;
   }else{
-    push(ref(db,"posts"),{name,price,link,img,desc});
+    posts.push({name,link,desc});
   }
 
-  document.getElementById("name").value="";
-  document.getElementById("price").value="";
-  document.getElementById("link").value="";
-  document.getElementById("img").value="";
-  document.getElementById("desc").value="";
-};
+  save();
+  showPosts();
 
-// SHOW DATA
-onValue(ref(db,"posts"),snap=>{
-  const posts=document.getElementById("posts");
-  posts.innerHTML="";
+  name.value=""; link.value=""; desc.value="";
+}
 
-  snap.forEach(child=>{
-    const data=child.val();
-    const key=child.key;
+function showPosts(){
+  const div = document.getElementById("posts");
+  div.innerHTML="";
 
-    const div=document.createElement("div");
-    div.className="card";
-
-    div.innerHTML=`
-      <div class="actions">
-        <button class="edit">Edit</button>
-        <button class="delete">Delete</button>
-      </div>
-
-      <img src="${data.img || 'https://via.placeholder.com/300'}">
-      <div class="card-body">
-        <div class="title">${data.name}</div>
-        <div class="desc">${data.desc || ''}</div>
-        <div class="price">${data.price || ''}</div>
-        <a href="${data.link}" target="_blank">Open</a>
+  posts.forEach((p,i)=>{
+    div.innerHTML += `
+      <div class="card">
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <a href="${p.link}" target="_blank">Open</a><br>
+        <button onclick="editPost(${i})">Edit</button>
+        <button onclick="deletePost(${i})">Delete</button>
       </div>
     `;
-
-    // DELETE
-    div.querySelector(".delete").onclick=()=>{
-      if(confirm("Delete?")){
-        remove(ref(db,"posts/"+key));
-      }
-    };
-
-    // EDIT
-    div.querySelector(".edit").onclick=()=>{
-      name.value=data.name;
-      price.value=data.price;
-      link.value=data.link;
-      img.value=data.img;
-      desc.value=data.desc;
-
-      editKey=key;
-      addBtn.innerText="UPDATE POST";
-    };
-
-    posts.appendChild(div);
   });
-});
+}
+
+function deletePost(i){
+  posts.splice(i,1);
+  save();
+  showPosts();
+}
+
+function editPost(i){
+  document.getElementById("name").value = posts[i].name;
+  document.getElementById("link").value = posts[i].link;
+  document.getElementById("desc").value = posts[i].desc;
+
+  editIndex = i;
+}
+
+showPosts();
 </script>
 
 </body>
