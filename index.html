@@ -1,121 +1,197 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>PKRAAJ HUB | Store Admin</title>
-    <style>
-        :root { --primary: #2563eb; --dark: #0f172a; --light: #f8fafc; --danger: #ef4444; }
-        body { margin: 0; font-family: sans-serif; background: var(--light); padding-bottom: 80px; }
-        header { background: var(--dark); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; font-weight: 900; }
-        
-        #adminPanel { background: white; padding: 20px; border-bottom: 3px solid var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 10px; }
-        input, textarea, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; }
-        .publish-btn { width: 100%; background: #10b981; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PKRAAJ HUB ADMIN</title>
 
-        .container { padding: 20px; max-width: 800px; margin: 0 auto; }
-        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #eee; position: relative; }
-        .card-body { padding: 20px; }
-        
-        /* DELETE BUTTON - CLEARLY VISIBLE */
-        .del-btn { 
-            position: absolute; top: 10px; right: 10px; 
-            background: var(--danger); color: white; border: none; 
-            padding: 8px 12px; border-radius: 8px; font-size: 12px;
-            font-weight: bold; cursor: pointer; z-index: 20;
-        }
+<style>
+:root {
+  --primary:#2563eb;
+  --danger:#ef4444;
+  --edit:#f59e0b;
+}
 
-        .price { font-weight: 900; font-size: 1.5rem; }
-        .btn-action { background: var(--primary); color: white; text-decoration: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; }
-    </style>
+body {
+  font-family:sans-serif;
+  margin:0;
+  background:#f1f5f9;
+}
+
+header {
+  background:#0f172a;
+  color:#fff;
+  padding:15px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.container {
+  max-width:800px;
+  margin:auto;
+  padding:15px;
+}
+
+input, textarea {
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+button {
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.add-btn {
+  background:green;
+  color:#fff;
+  width:100%;
+}
+
+.card {
+  background:#fff;
+  padding:15px;
+  border-radius:12px;
+  margin-top:15px;
+  position:relative;
+}
+
+.actions {
+  position:absolute;
+  top:10px;
+  right:10px;
+}
+
+.del {
+  background:var(--danger);
+  color:#fff;
+}
+
+.edit {
+  background:var(--edit);
+  color:#fff;
+}
+
+.price {
+  font-weight:bold;
+  font-size:18px;
+}
+</style>
+
 </head>
 <body>
 
-<header>PKRAAJ HUB | ADMIN CONTROL</header>
+<header>PKRAAJ HUB ADMIN PANEL</header>
 
-<div id="adminPanel">
-    <h3 style="margin:0 0 10px 0;">नई पोस्ट डालें</h3>
-    <input type="text" id="pName" placeholder="Item Name">
-    <input type="text" id="pPrice" placeholder="Price (FREE or ₹)">
-    <input type="text" id="pLink" placeholder="Link">
-    <textarea id="pDesc" placeholder="Description"></textarea>
-    <select id="pFolder">
-        <option value="themes">Themes</option>
-        <option value="apps">Apps</option>
-    </select>
-    <button class="publish-btn" id="submitBtn">PUBLISH NOW</button>
-</div>
+<div class="container">
 
-<div class="container" id="postWrapper">
-    <p style="text-align:center;">डेटा लोड हो रहा है...</p>
+  <input id="name" placeholder="Item Name">
+  <input id="price" placeholder="Price">
+  <input id="link" placeholder="Link">
+  <input id="img" placeholder="Image URL">
+  <textarea id="desc" placeholder="Description"></textarea>
+
+  <button class="add-btn" id="addBtn">ADD POST</button>
+
+  <div id="posts"></div>
+
 </div>
 
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyC5FXO_xlO0qXGSnGWE62GYSD9hXwcErjE",
-        authDomain: "mybloglikes-95f54.firebaseapp.com",
-        databaseURL: "https://mybloglikes-95f54-default-rtdb.firebaseio.com",
-        projectId: "mybloglikes-95f54",
-        storageBucket: "mybloglikes-95f54.firebasestorage.app",
-        messagingSenderId: "458642789264",
-        appId: "1:458642789264:web:3d60f9fec2f4b64224d915"
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH",
+  databaseURL: "YOUR_DB_URL",
+  projectId: "YOUR_ID",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let editKey = null;
+
+// ADD OR UPDATE
+document.getElementById('addBtn').onclick = () => {
+  const name = document.getElementById('name').value;
+  const price = document.getElementById('price').value;
+  const link = document.getElementById('link').value;
+  const desc = document.getElementById('desc').value;
+  const img = document.getElementById('img').value;
+
+  if(!name || !link) return alert("Fill required fields");
+
+  if(editKey){
+    update(ref(db, 'posts/' + editKey), {name,price,link,desc,img});
+    editKey = null;
+    document.getElementById('addBtn').innerText = "ADD POST";
+  } else {
+    push(ref(db,'posts'), {name,price,link,desc,img});
+  }
+
+  document.getElementById('name').value='';
+  document.getElementById('price').value='';
+  document.getElementById('link').value='';
+  document.getElementById('desc').value='';
+  document.getElementById('img').value='';
+};
+
+// SHOW DATA
+onValue(ref(db,'posts'), snap=>{
+  const posts = document.getElementById('posts');
+  posts.innerHTML='';
+
+  snap.forEach(child=>{
+    const data = child.val();
+    const key = child.key;
+
+    const div = document.createElement('div');
+    div.className='card';
+
+    div.innerHTML = `
+      <div class="actions">
+        <button class="edit">EDIT</button>
+        <button class="del">DELETE</button>
+      </div>
+
+      <img src="${data.img || 'https://via.placeholder.com/300'}" width="100%">
+      <h3>${data.name}</h3>
+      <p>${data.desc}</p>
+      <div class="price">${data.price}</div>
+      <a href="${data.link}" target="_blank">Open</a>
+    `;
+
+    // DELETE
+    div.querySelector('.del').onclick = ()=>{
+      if(confirm("Delete?")){
+        remove(ref(db,'posts/'+key));
+      }
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    // EDIT
+    div.querySelector('.edit').onclick = ()=>{
+      document.getElementById('name').value = data.name;
+      document.getElementById('price').value = data.price;
+      document.getElementById('link').value = data.link;
+      document.getElementById('desc').value = data.desc;
+      document.getElementById('img').value = data.img;
 
-    // 1. UPLOAD POST
-    document.getElementById('submitBtn').addEventListener('click', () => {
-        const name = document.getElementById('pName').value;
-        const price = document.getElementById('pPrice').value;
-        const link = document.getElementById('pLink').value;
-        const desc = document.getElementById('pDesc').value;
-        const folder = document.getElementById('pFolder').value;
+      editKey = key;
+      document.getElementById('addBtn').innerText = "UPDATE POST";
+    };
 
-        if(!name || !link) return alert("नाम और लिंक भरें!");
+    posts.appendChild(div);
+  });
 
-        push(ref(db, 'posts'), { name, price, link, desc, folder });
-        alert("Published!");
-        document.getElementById('pName').value = '';
-    });
-
-    // 2. SHOW POSTS & DELETE LOGIC
-    onValue(ref(db, 'posts'), (snapshot) => {
-        const wrapper = document.getElementById('postWrapper');
-        wrapper.innerHTML = '';
-        
-        snapshot.forEach((child) => {
-            const p = child.val();
-            const key = child.key;
-            
-            // नया कार्ड बनाएं
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <button class="del-btn">DELETE POST</button>
-                <div class="card-body">
-                    <h2 style="margin:0;">${p.name || 'Undefined'}</h2>
-                    <p style="color:#64748b;">${p.desc || 'No description'}</p>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span class="price">${p.price || '0'}</span>
-                        <a href="${p.link}" target="_blank" class="btn-action">Link</a>
-                    </div>
-                </div>
-            `;
-
-            // डिलीट बटन पर क्लिक करने का काम
-            card.querySelector('.del-btn').addEventListener('click', () => {
-                if(confirm("इसे डिलीट करें?")) {
-                    remove(ref(db, `posts/${key}`));
-                }
-            });
-
-            wrapper.appendChild(card);
-        });
-    });
+});
 </script>
+
 </body>
 </html>
