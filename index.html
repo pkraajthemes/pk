@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKRAAJ DIGITAL HUB | Themes, Softwares & Services</title>
+    <style>
+        /* Define Professional Colors */
+        :root { 
+            --primary: #2563eb; /* Royal Blue */
+            --primary-dark: #1e40af;
+            --secondary: #10b981; /* Emerald Green */
+            --dark: #0f172a; /* Slate Dark */
+            --light: #f1f5f9; /* Light Gray */
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --white: #ffffff;
+            --free-tag: #059669;
+        }
+
+        /* Basic Reset */
+        body { margin: 0; font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; background: #f8fafc; color: var(--text-main); padding-bottom: 100px; -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; transition: 0.3s; }
+        ul { list-style: none; margin: 0; padding: 0; }
+
+        /* --- 1. Header & Nav --- */
+        .header { background: var(--dark); color: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; max-width: 1400px; margin: 0 auto; }
+        .logo { font-weight: 900; letter-spacing: 2px; font-size: 2.2rem; text-transform: uppercase; color: var(--white); }
+        .logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { color: var(--white); font-size: 0.95rem; font-weight: 500; opacity: 0.8; }
+        .nav-links a:hover { opacity: 1; color: var(--primary); }
+        .admin-btn { background: rgba(255,255,255,0.1); padding: 8px 18px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.2); font-size: 0.85rem; font-weight: 700; color: var(--primary); }
+
+        /* --- 2. Hero Section --- */
+        .hero { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: var(--white); padding: 100px 20px; text-align: center; }
+        .hero-container { max-width: 800px; margin: 0 auto; }
+        .hero h1 { font-size: 3.5rem; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 3px; font-weight: 900; text-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .hero p { font-size: 1.3rem; opacity: 0.9; margin-bottom: 40px; }
+        .hero-btns { display: flex; gap: 15px; justify-content: center; }
+        .btn-hero-primary { background: var(--white); color: var(--primary); padding: 15px 35px; border-radius: 12px; font-weight: 700; font-size: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .btn-hero-primary:hover { background: var(--light); transform: translateY(-3px); }
+        .btn-hero-secondary { background: rgba(255,255,255,0.1); color: var(--white); padding: 15px 35px; border-radius: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); }
+        .btn-hero-secondary:hover { background: rgba(255,255,255,0.2); }
+
+        /* --- 3. Trust Badges --- */
+        .trust-badges { background: var(--white); padding: 30px 5%; border-bottom: 1px solid #eee; display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; }
+        .badge-item { display: flex; align-items: center; gap: 12px; color: var(--text-main); }
+        .badge-icon { width: 40px; height: 40px; background: var(--light); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--primary); font-size: 1.2rem; }
+        .badge-text h4 { margin: 0; font-size: 1rem; font-weight: 700; }
+        .badge-text p { margin: 0; font-size: 0.85rem; color: var(--text-muted); }
+
+        /* --- 4. Section Styling --- */
+        .main-container { max-width: 1400px; margin: 0 auto; padding: 60px 5%; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-title { font-size: 2.5rem; color: var(--dark); font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+        .section-subtitle { color: var(--text-muted); font-size: 1.1rem; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        
+        /* --- 5. Modern Cards --- */
+        .card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.4s; border: 1px solid #eee; display: flex; flex-direction: column; position: relative; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .card-img-wrapper { position: relative; width: 100%; height: 220px; overflow: hidden; }
+        .card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .card:hover img { transform: scale(1.1); }
+        
+        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .platform-badge { padding: 5px 12px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; color: var(--white); text-transform: uppercase; }
+        
+        .card-title { font-size: 1.4rem; margin: 0 0 10px 0; color: var(--dark); font-weight: 700; }
+        .card-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+        
+        .card-action { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid #eee; margin-top: auto; }
+        .card-price { font-size: 1.8rem; color: var(--secondary); font-weight: 800; }
+        
+        .btn-card-primary { background: var(--primary); color: var(--white); padding: 12px 25px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; }
+        .btn-card-primary:hover { background: var(--primary-dark); }
+        .btn-card-secondary { background: var(--light); color: var(--text-main); padding: 12px 25px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; }
+        .btn-card-secondary:hover { background: #e2e8f0; }
+
+        /* --- 6. Floating WhatsApp --- */
+        .whatsapp-btn { position: fixed; bottom: 30px; right: 30px; background: #25d366; color: var(--white); width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 6px 20px rgba(0,0,0,0.3); z-index: 1001; transition: 0.3s; }
+        .whatsapp-btn:hover { transform: scale(1.1); }
+
+        /* --- 7. Footer --- */
+        .footer { background: var(--white); padding: 60px 5%; border-top: 1px solid #eee; margin-top: 80px; text-align: center; }
+        .footer-logo { font-weight: 900; font-size: 1.8rem; color: var(--dark); text-transform: uppercase; margin-bottom: 20px; display: inline-block; }
+        .footer-logo span { color: var(--primary); }
+        .footer-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-muted); font-size: 0.95rem; }
+        .footer-links a:hover { color: var(--primary); }
+        .copyright { color: #94a3b8; font-size: 0.9rem; margin: 0; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo"><span>P</span>KRAAJ</a>
+            <ul class="nav-links">
+                <li><a href="#themes">Themes</a></li>
+                <li><a href="#softwares">Softwares</a></li>
+                <li><a href="#free">Free Zone</a></li>
+                <li><a href="https://wa.me/919306930312" class="admin-btn">CONTACT PKRAAJ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-container">
+            <h1>PKRAAJ DIGITAL HUB</h1>
+            <p>Premium Themes, Powerful Softwares & Full Admin Support</p>
+            <div class="hero-btns">
+                <a href="#themes" class="btn-hero-primary">Explore Themes</a>
+                <a href="#free" class="btn-hero-secondary">Get Free Stuff</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="trust-badges">
+        <div class="badge-item">
+            <div class="badge-icon">✅</div>
+            <div class="badge-text">
+                <h4>Verified Products</h4>
+                <p>100% Secure & Working</p>
+            </div>
+        </div>
+        <div class="badge-item">
+            <div class="badge-icon">⚡</div>
+            <div class="badge-text">
+                <h4>Instant Access</h4>
+                <p>Get your files immediately</p>
+            </div>
+        </div>
+        <div class="badge-item">
+            <div class="badge-icon">🛠️</div>
+            <div class="badge-text">
+                <h4>Free Setup</h4>
+                <p>Full support from PKRAAJ</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-container">
+
+        <section id="themes" class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Professional Themes</h2>
+                <p class="section-subtitle">Blogger, WordPress और Shopify के लिए वर्ल्ड-क्लास डिजाइन्स</p>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=500" alt="Blogger">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <span class="platform-badge" style="background:#ff5722;">Blogger</span>
+                        </div>
+                        <h3 class="card-title">News Master Pro v2</h3>
+                        <p class="card-text">Ads Ready, SEO Optimized & Ultra Fast Loading theme for news blogs.</p>
+                        <div class="card-action">
+                            <div class="card-price">₹299</div>
+                            <a href="upi://pay?pa=9306930312@ybl&pn=PKRAAJ&am=299&cu=INR" class="btn-card-primary">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500" alt="WordPress">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <span class="platform-badge" style="background:#21759b;">WordPress</span>
+                        </div>
+                        <h3 class="card-title">PKRAAJ WP-Mag</h3>
+                        <p class="card-text">Modern Magazine style theme for WP, Elementor compatible.</p>
+                        <div class="card-action">
+                            <div class="card-price">₹499</div>
+                            <a href="upi://pay?pa=9306930312@ybl&pn=PKRAAJ&am=499&cu=INR" class="btn-card-primary">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="softwares" class="section-container" style="margin-top: 80px;">
+            <div class="section-header">
+                <h2 class="section-title">AI Softwares</h2>
+                <p class="section-subtitle">Powerful tools to boost your blogging productivity</p>
+            </div>
+            <div class="grid">
+                <div class="card" style="border-color: #7c3aed;">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500" alt="AI Tool">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <span class="platform-badge" style="background:#7c3aed;">AI Software</span>
+                        </div>
+                        <h3 class="card-title">Auto Article Writer</h3>
+                        <p class="card-text">Generate high-quality blog posts with just one click using AI.</p>
+                        <div class="card-action">
+                            <div class="card-price">₹199/Mo</div>
+                            <a href="https://wa.me/919306930312?text=AI%20Software%20Get%20Access" class="btn-card-primary" style="background:#7c3aed;">Get Access</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="free" class="section-container" style="margin-top: 80px;">
+            <div class="section-header">
+                <h2 class="section-title" style="color: var(--free-tag);">🎁 Free Zone</h2>
+                <p class="section-subtitle">Download high-quality themes & tools for FREE</p>
+            </div>
+            <div class="grid">
+                <div class="card" style="background: linear-gradient(145deg, #0f172a, #1e293b); color: white; border: none;">
+    <div class="card-body" style="text-align: center; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <div style="font-size: 3.5rem; margin-bottom: 10px;">📱</div>
+        <h3 class="card-title" style="color: white; font-size: 1.6rem;">PKRAAJ Official App</h3>
+        <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px;">
+            नई थीम्स, फ्री सॉफ्टवेयर्स और डायरेक्ट एडमिन सपोर्ट अब आपके फोन में!
+        </p>
+        <a href="https://wa.me/919306930312?text=Sir%20App%20Download%20Link%20Chahiye" 
+           class="btn-card-primary" 
+           style="background: #3b82f6; width: 100%; border-radius: 12px; padding: 15px; text-transform: uppercase; letter-spacing: 1px;">
+           Download APK Now
+        </a>
+        <p style="font-size: 0.7rem; color: #475569; margin-top: 15px;">Version 1.0 | Fast & Secure</p>
+    </div>
+</div>
+
+                <div class="card" style="border-color: #a7f3d0;">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=500" alt="Free Theme">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <span class="platform-badge" style="background: var(--free-tag);">Free Download</span>
+                        </div>
+                        <h3 class="card-title">Starter Blogger Theme</h3>
+                        <p class="card-text">Perfect lightweight and SEO friendly theme for new bloggers.</p>
+                        <div class="card-action">
+                            <div class="card-price" style="color:var(--text-muted); font-size:1.4rem;">FREE</div>
+                            <a href="https://wa.me/919306930312?text=Sir%20Free%20Blogger%20Theme%20Chahiye" class="btn-card-secondary" style="color:var(--free-tag);">Download Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <a href="https://wa.me/919306930312" class="whatsapp-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35" height="35" alt="WhatsApp">
+    </a>
+
+    <footer class="footer">
+        <a href="#" class="footer-logo"><span>P</span>KRAAJ</a>
+        <div class="footer-links">
+            <a href="#themes">Themes</a>
+            <a href="#softwares">Softwares</a>
+            <a href="#free">Free Zone</a>
+            <a href="https://wa.me/919306930312">Support</a>
+        </div>
+        <p class="copyright">&copy; 2026 <b>PKRAAJ DIGITAL HUB</b> | All Rights Reserved</p>
+        <p style="font-size:0.8rem; color:#cbd5e1; margin-top:10px;">Made with ❤️ by PKRAAJ</p>
+    </footer>
+
+</body>
+</html>
