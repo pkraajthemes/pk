@@ -3,189 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>PKRAAJ HUB | Premium Themes & Apps</title>
+    <title>PKRAAJ HUB | Digital Store</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <style>
-        :root { 
-            --primary: #2563eb; 
-            --dark: #0f172a; 
-            --light: #f8fafc; 
-            --accent: #3b82f6;
-            --success: #10b981;
-        }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Inter', sans-serif; }
-        body { margin: 0; background: var(--light); color: var(--dark); padding-bottom: 70px; }
+        :root { --primary: #2563eb; --dark: #0f172a; --light: #f8fafc; --success: #10b981; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: sans-serif; }
+        body { margin: 0; background: var(--light); padding-bottom: 80px; }
         
-        /* Header Styling */
-        header { 
-            background: var(--dark); 
-            color: white; 
-            padding: 15px 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
-        }
-        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -0.5px; }
-        .admin-badge { background: var(--primary); font-size: 10px; padding: 4px 10px; border-radius: 5px; font-weight: bold; text-decoration: none; color: white; }
+        header { background: var(--dark); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .logo { font-weight: 900; font-size: 1.3rem; }
+        .admin-btn { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 12px; }
 
-        /* Navigation Tabs */
-        .nav-scroll { 
-            background: white; 
-            display: flex; 
-            overflow-x: auto; 
-            padding: 12px; 
-            gap: 10px; 
-            border-bottom: 1px solid #e2e8f0; 
-            position: sticky; 
-            top: 58px; 
-            z-index: 999; 
-            scrollbar-width: none;
-        }
-        .nav-btn { 
-            padding: 8px 20px; 
-            border-radius: 30px; 
-            border: 1px solid #e2e8f0; 
-            background: #fff; 
-            white-space: nowrap; 
-            font-size: 13px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            color: #64748b;
-            transition: 0.3s;
-        }
-        .nav-btn.active { 
-            background: var(--primary); 
-            color: white; 
-            border-color: var(--primary); 
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); 
-        }
+        /* Admin Form */
+        #adminPanel { display: none; background: white; padding: 20px; border-bottom: 3px solid var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; }
+        .publish-btn { width: 100%; background: var(--success); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
 
-        /* Product Cards Grid */
-        .main-grid { padding: 20px; max-width: 900px; margin: 0 auto; }
-        .product-card { 
-            background: white; 
-            border-radius: 24px; 
-            overflow: hidden; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
-            margin-bottom: 30px; 
-            border: 1px solid #f1f5f9; 
-            animation: fadeIn 0.5s ease;
-        }
-        .img-box { 
-            height: 200px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 70px; 
-            background: linear-gradient(135deg, #2563eb, #60a5fa); 
-            color: white; 
-        }
-        .content-box { padding: 20px; }
-        .badge { font-size: 10px; font-weight: 800; background: #eff6ff; color: var(--primary); padding: 4px 12px; border-radius: 6px; text-transform: uppercase; }
-        .title { font-size: 1.4rem; font-weight: 800; margin: 10px 0; }
-        .desc { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
+        /* Tabs */
+        .tabs { background: white; display: flex; overflow-x: auto; padding: 12px; gap: 10px; border-bottom: 1px solid #e2e8f0; position: sticky; top: 58px; z-index: 999; scrollbar-width: none; }
+        .tab { padding: 8px 22px; border-radius: 25px; border: 1px solid #cbd5e1; background: #fff; white-space: nowrap; font-size: 13px; font-weight: bold; color: #64748b; cursor: pointer; }
+        .tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Grid & Cards */
+        .container { padding: 20px; max-width: 800px; margin: 0 auto; }
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #f1f5f9; animation: slideUp 0.4s ease; }
+        .card-img { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 60px; color: white; }
+        .card-body { padding: 20px; }
+        .card-title { font-size: 1.3rem; font-weight: 800; margin: 5px 0; color: #1e293b; }
+        .card-desc { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 15px; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 15px; }
+        .price { font-weight: 900; font-size: 1.5rem; }
+        .buy-link { background: var(--primary); color: white; text-decoration: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        .footer-card { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-top: 1px solid #f1f5f9; 
-            padding-top: 15px; 
-        }
-        .price-text { font-size: 1.6rem; font-weight: 900; color: var(--dark); }
-        .buy-now { 
-            background: var(--primary); 
-            color: white; 
-            text-decoration: none; 
-            padding: 12px 28px; 
-            border-radius: 14px; 
-            font-weight: 700; 
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-            transition: 0.2s;
-        }
-        .buy-now:active { transform: scale(0.95); }
-
-        /* Policy Footer */
-        footer { background: white; padding: 40px 20px; text-align: center; border-top: 1px solid #e2e8f0; }
-        .f-links { margin-bottom: 20px; }
-        .f-links a { text-decoration: none; color: #94a3b8; font-size: 13px; margin: 0 10px; font-weight: 600; }
-        
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Whatsapp Floating */
-        .wa-float { position: fixed; bottom: 85px; right: 20px; background: #25d366; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.15); z-index: 1000; }
+        /* AdSense Required Footer */
+        footer { background: #fff; padding: 30px 20px; text-align: center; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+        .f-links a { text-decoration: none; color: #94a3b8; font-size: 12px; margin: 0 10px; font-weight: 600; }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo">PKRAAJ HUB</div>
-    <a href="https://github.com" class="admin-badge">ADMIN MODE</a>
+    <button class="admin-btn" onclick="toggleAdmin()">+ ADMIN PANEL</button>
 </header>
 
-<div class="nav-scroll">
-    <button class="nav-btn active" onclick="filter('all', this)">All Products</button>
-    <button class="nav-btn" onclick="filter('blogger', this)">Blogger</button>
-    <button class="nav-btn" onclick="filter('wordpress', this)">WordPress</button>
-    <button class="nav-btn" onclick="filter('apps', this)">Apps</button>
+<div id="adminPanel">
+    <h3 style="margin-top:0;">Add New Post (Database)</h3>
+    <input type="text" id="pName" placeholder="Product Name">
+    <input type="text" id="pPrice" placeholder="Price (e.g. ₹299 or FREE)">
+    <input type="text" id="pLink" placeholder="Download/WhatsApp Link">
+    <textarea id="pDesc" rows="3" placeholder="Description (AdSense के लिए यहाँ 5-6 लाइनें लिखें)"></textarea>
+    <select id="pFolder">
+        <option value="blogger">Blogger</option>
+        <option value="wordpress">WordPress</option>
+        <option value="apps">Apps</option>
+        <option value="software">Software</option>
+    </select>
+    <button class="publish-btn" onclick="uploadData()">PUBLISH TO STORE</button>
 </div>
 
-<div class="main-grid" id="store">
-    <div class="product-card blogger">
-        <div class="img-box">🎨</div>
-        <div class="content-box">
-            <span class="badge">Blogger Theme</span>
-            <h2 class="title">SEO Master Pro v2</h2>
-            <p class="desc">यह एक प्रीमियम ब्लॉगर थीम है जो फ़ास्ट लोडिंग और SEO फ्रेंडली है। इसमें डार्क मोड और कस्टमाइज़ेबल विगेट्स मिलते हैं।</p>
-            <div class="footer-card">
-                <span class="price-text">₹299</span>
-                <a href="https://wa.me/919306930312" class="buy-now">Buy Now</a>
-            </div>
-        </div>
-    </div>
+<div class="tabs">
+    <div class="tab active" onclick="filter('all', this)">All Products</div>
+    <div class="tab" onclick="filter('blogger', this)">Blogger</div>
+    <div class="tab" onclick="filter('wordpress', this)">WordPress</div>
+    <div class="tab" onclick="filter('apps', this)">Apps</div>
+</div>
 
-    <div class="product-card wordpress">
-        <div class="img-box" style="background: linear-gradient(135deg, #764abc, #9333ea);">🌐</div>
-        <div class="content-box">
-            <span class="badge">WordPress Theme</span>
-            <h2 class="title">Elementor Pro Kit</h2>
-            <p class="desc">वर्डप्रेस के लिए सबसे बेहतरीन डिजाइनिंग टूल। इसमें आपको मिलते हैं 100+ रेडी-टू-यूज़ टेम्पलेट्स।</p>
-            <div class="footer-card">
-                <span class="price-text">₹499</span>
-                <a href="https://wa.me/919306930312" class="buy-now">Buy Now</a>
-            </div>
-        </div>
-    </div>
+<div class="container" id="postWrapper">
+    <p id="status" style="text-align:center; color:#94a3b8;">Loading Store...</p>
 </div>
 
 <footer>
     <div class="f-links">
-        <a href="#">About</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Contact Us</a>
-        <a href="#">Disclaimer</a>
+        <a href="#">About Us</a> | <a href="#">Privacy Policy</a> | <a href="#">Contact</a>
     </div>
-    <p style="font-size: 11px; color: #cbd5e1;">© 2026 PKRAAJ DIGITAL HUB. All rights reserved.</p>
+    <p style="font-size:10px; color:#cbd5e1; margin-top:10px;">© 2026 PKRAAJ DIGITAL HUB</p>
 </footer>
 
-<a href="https://wa.me/919306930312" class="wa-float">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35">
-</a>
-
 <script>
+    // --- STEP 1: अपना FIREBASE CONFIG यहाँ डालें ---
+    const firebaseConfig = {
+        apiKey: "यूँहा_अपनी_API_KEY_पेस्ट_करें",
+        databaseURL: "https://mybloglikes-95f54-default-rtdb.firebaseio.com" //
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function toggleAdmin() {
+        let panel = document.getElementById('adminPanel');
+        panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+    }
+
+    // --- STEP 2: डाटाबेस में पोस्ट भेजना ---
+    function uploadData() {
+        let name = document.getElementById('pName').value;
+        let price = document.getElementById('pPrice').value;
+        let link = document.getElementById('pLink').value;
+        let desc = document.getElementById('pDesc').value;
+        let folder = document.getElementById('pFolder').value;
+
+        if(!name || !link || !desc) return alert("सारी जानकारी भरें!");
+
+        // डेटा 'posts' फोल्डर में जाएगा
+        db.ref('posts').push({
+            name, price, link, desc, folder, timestamp: Date.now()
+        });
+
+        alert("पोस्ट लाइव हो गई!");
+        toggleAdmin();
+        // फॉर्म साफ़ करें
+        document.getElementById('pName').value = '';
+        document.getElementById('pDesc').value = '';
+    }
+
+    // --- STEP 3: रियल-टाइम डाटा दिखाना ---
+    db.ref('posts').on('value', (snapshot) => {
+        let wrapper = document.getElementById('postWrapper');
+        wrapper.innerHTML = '';
+        document.getElementById('status').style.display = 'none';
+
+        snapshot.forEach((child) => {
+            let item = child.val();
+            let color = item.folder === 'blogger' ? '#2563eb' : item.folder === 'apps' ? '#f59e0b' : '#764abc';
+            let icon = item.folder === 'blogger' ? '🎨' : item.folder === 'apps' ? '📱' : '🌐';
+
+            wrapper.innerHTML += `
+                <div class="card ${item.folder}">
+                    <div class="card-img" style="background:${color}">${icon}</div>
+                    <div class="card-body">
+                        <span style="font-size:10px; font-weight:bold; color:${color}; text-transform:uppercase;">${item.folder}</span>
+                        <h2 class="card-title">${item.name}</h2>
+                        <p class="card-desc">${item.desc}</p>
+                        <div class="card-footer">
+                            <span class="price">${item.price}</span>
+                            <a href="${item.link}" class="buy-link">${item.price === 'FREE' ? 'Download' : 'Buy Now'}</a>
+                        </div>
+                    </div>
+                </div>`;
+        });
+    });
+
     function filter(cat, btn) {
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
-        
-        document.querySelectorAll('.product-card').forEach(card => {
-            if (cat === 'all') card.style.display = 'block';
-            else card.classList.contains(cat) ? card.style.display = 'block' : card.style.display = 'none';
+        document.querySelectorAll('.card').forEach(c => {
+            if(cat === 'all') c.style.display = 'block';
+            else c.classList.contains(cat) ? c.style.display = 'block' : c.style.display = 'none';
         });
     }
 </script>
-
 </body>
 </html>
