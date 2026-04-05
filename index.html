@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>PKRAAJ DIGITAL HUB | Themes, Apps & Softwares</title>
 
+    <meta name="description" content="Download Premium Blogger Themes, PC Softwares and Android Apps by PKRAAJ.">
+    <meta name="author" content="PKRAAJ">
+
     <style>
         :root { 
             --primary: #2563eb; --dark: #0f172a; --light: #f1f5f9; 
@@ -13,110 +16,125 @@
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--light); color: var(--text); padding-bottom: 80px; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--light); color: var(--text); padding-bottom: 90px; }
 
-        /* Splash Screen */
+        /* Splash Screen Animation */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: var(--dark); color: white; display: flex;
-            justify-content: center; align-items: center; z-index: 9999; transition: 0.8s;
+            flex-direction: column; justify-content: center; align-items: center; 
+            z-index: 9999; transition: 0.8s ease-out;
         }
         .splash-logo { font-size: 3rem; font-weight: 900; letter-spacing: 5px; }
         .splash-logo span { color: var(--primary); }
 
-        /* Header */
-        header { background: var(--dark); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        /* Modern Header */
+        header { background: var(--dark); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         .logo { font-size: 1.5rem; font-weight: 800; text-decoration: none; color: white; }
         .logo span { color: var(--primary); }
 
-        /* Hero */
-        .hero { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: white; padding: 60px 20px; text-align: center; }
+        /* Hero Hub */
+        .hero { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: white; padding: 70px 20px; text-align: center; }
+        .hero h1 { margin: 0; font-size: 2.2rem; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* Sections */
+        /* Section Styling */
         .container { max-width: 1200px; margin: 0 auto; padding: 20px 15px; }
-        .sec-title { border-left: 5px solid var(--primary); padding-left: 15px; margin: 40px 0 20px; font-size: 1.5rem; text-transform: uppercase; font-weight: 900; }
+        .section-header { border-left: 6px solid var(--primary); padding-left: 15px; margin: 40px 0 20px; font-size: 1.4rem; font-weight: 900; color: var(--dark); text-transform: uppercase; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
         
-        /* Card Style */
-        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #eee; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); }
-        .card-img { width: 100%; height: 160px; object-fit: cover; background: #ddd; }
-        .card-content { padding: 15px; }
+        /* Premium Product Cards */
+        .card { background: white; border-radius: 18px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.06); border: 1px solid #eee; transition: 0.3s; position: relative; }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
         
-        .tag { font-size: 10px; font-weight: bold; padding: 3px 8px; border-radius: 5px; text-transform: uppercase; color: white; }
+        /* Auto-Styling Background for Images */
+        .card-img-box { width: 100%; height: 180px; display: flex; justify-content: center; align-items: center; font-size: 3rem; color: rgba(255,255,255,0.8); font-weight: bold; }
         
-        .price { font-size: 1.3rem; font-weight: 800; margin: 10px 0; }
-        .btn-buy { display: block; text-align: center; background: var(--primary); color: white; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: bold; }
+        .card-content { padding: 20px; }
+        .tag { font-size: 11px; font-weight: bold; padding: 5px 12px; border-radius: 30px; text-transform: uppercase; color: white; display: inline-block; margin-bottom: 10px; }
+        
+        .price { font-size: 1.6rem; font-weight: 900; margin: 15px 0; color: var(--dark); }
+        .btn-action { display: block; text-align: center; background: var(--primary); color: white; text-decoration: none; padding: 14px; border-radius: 12px; font-weight: bold; font-size: 1rem; transition: 0.2s; }
+        .btn-action:active { transform: scale(0.95); }
 
-        /* Bottom Nav */
-        .mobile-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; z-index: 1000; }
-        .nav-item { text-decoration: none; color: #94a3b8; font-size: 11px; text-align: center; }
+        /* Floating WhatsApp */
+        .whatsapp-btn { position: fixed; bottom: 85px; right: 20px; background: #25d366; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 1001; }
+
+        /* Mobile App Navigation */
+        .mobile-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; box-shadow: 0 -3px 15px rgba(0,0,0,0.05); z-index: 1000; }
+        .nav-item { text-decoration: none; color: #94a3b8; font-size: 10px; text-align: center; transition: 0.3s; }
         .nav-item.active { color: var(--primary); font-weight: bold; }
-
-        .whatsapp-float { position: fixed; bottom: 85px; right: 20px; background: #25d366; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 999; }
+        .nav-icon { font-size: 22px; margin-bottom: 3px; }
     </style>
 </head>
 <body>
 
-    <div id="splash"><div class="splash-logo"><span>P</span>KRAAJ</div></div>
+    <div id="splash">
+        <div class="splash-logo"><span>P</span>KRAAJ</div>
+        <p style="letter-spacing: 3px; font-size: 12px; margin-top: 10px;">PREMIUM DIGITAL HUB</p>
+    </div>
 
     <header>
-        <a href="#" class="logo"><span>P</span>KRAAJ HUB</a>
-        <a href="https://wa.me/919306930312" style="color:var(--primary); text-decoration:none; font-weight:bold; font-size:13px;">ADMIN</a>
+        <a href="#" class="logo"><span>P</span>KRAAJ STORE</a>
+        <a href="https://wa.me/919306930312" style="background:var(--primary); color:white; text-decoration:none; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:bold;">CONTACT ADMIN</a>
     </header>
 
     <section class="hero">
-        <h1>ALL-IN-ONE DIGITAL STORE</h1>
-        <p>Themes, Apps & PC Softwares</p>
+        <h1>ALL-IN-ONE HUB</h1>
+        <p>Themes • Softwares • Apps • Scripts</p>
     </section>
 
     <div class="container">
         
-        <div class="sec-title">Blogger Themes</div>
+        <div class="section-header">Blogger Premium Themes</div>
         <div class="grid">
             <div class="card">
-                <img src="https://via.placeholder.com/400x200/2563eb/fff?text=SEO+Master" class="card-img">
+                <div class="card-img-box" style="background: var(--primary);">🎨</div>
                 <div class="card-content">
                     <span class="tag" style="background:var(--primary)">Premium</span>
-                    <h3 style="margin:5px 0;">SEO Master Pro</h3>
+                    <h3 style="margin:0;">SEO Master Pro v2</h3>
+                    <p style="font-size:13px; color:#64748b;">AdSense Friendly & Super Fast Loading.</p>
                     <div class="price">₹299</div>
-                    <a href="https://wa.me/919306930312?text=Blogger%20Theme" class="btn-buy">Buy Now</a>
+                    <a href="https://wa.me/919306930312?text=Hi%20PKRAAJ,%20I%20want%20to%20buy%20Blogger%20Theme" class="btn-action">Buy Now</a>
                 </div>
             </div>
+
             <div class="card">
-                <img src="https://via.placeholder.com/400x200/10b981/fff?text=Free+Theme" class="card-img">
+                <div class="card-img-box" style="background: var(--success);">🎁</div>
                 <div class="card-content">
-                    <span class="tag" style="background:var(--success)">Free</span>
-                    <h3 style="margin:5px 0;">Starter Lite</h3>
-                    <div class="price">FREE</div>
-                    <a href="https://wa.me/919306930312?text=Free%20Theme" class="btn-buy" style="background:var(--success)">Download</a>
+                    <span class="tag" style="background:var(--success)">Free Zone</span>
+                    <h3 style="margin:0;">Starter Lite Theme</h3>
+                    <p style="font-size:13px; color:#64748b;">Clean and SEO friendly for beginners.</p>
+                    <div class="price" style="color:var(--success);">FREE</div>
+                    <a href="https://wa.me/919306930312?text=Hi%20PKRAAJ,%20I%20want%20Free%20Theme%20Link" class="btn-action" style="background:var(--success);">Download Free</a>
                 </div>
             </div>
         </div>
 
-        <div class="sec-title">PC Softwares (.exe)</div>
+        <div class="section-header">Windows Software (.exe)</div>
         <div class="grid">
             <div class="card">
-                <img src="https://via.placeholder.com/400x200/0f172a/fff?text=Windows+App" class="card-img">
+                <div class="card-img-box" style="background: var(--dark);">💻</div>
                 <div class="card-content">
-                    <span class="tag" style="background:var(--dark)">Software</span>
-                    <h3 style="margin:5px 0;">PKRAAJ PC Tool</h3>
+                    <span class="tag" style="background:var(--dark)">PC Tool</span>
+                    <h3 style="margin:0;">PKRAAJ Digital Kit</h3>
+                    <p style="font-size:13px; color:#64748b;">Premium Windows Utility for Bloggers.</p>
                     <div class="price">₹499</div>
-                    <a href="https://wa.me/919306930312?text=PC%20Software" class="btn-buy" style="background:var(--dark)">Get Now</a>
+                    <a href="https://wa.me/919306930312?text=I%20want%20PC%20Software" class="btn-action" style="background:var(--dark);">Get Access</a>
                 </div>
             </div>
         </div>
 
-        <div class="sec-title">Android Apps (.apk)</div>
+        <div class="section-header">Android Apps (.apk)</div>
         <div class="grid">
             <div class="card">
-                <img src="https://via.placeholder.com/400x200/f59e0b/fff?text=Android+App" class="card-img">
+                <div class="card-img-box" style="background: var(--orange);">📱</div>
                 <div class="card-content">
-                    <span class="tag" style="background:var(--orange)">APK</span>
-                    <h3 style="margin:5px 0;">Store Official App</h3>
+                    <span class="tag" style="background:var(--orange)">Android</span>
+                    <h3 style="margin:0;">Official Hub App</h3>
+                    <p style="font-size:13px; color:#64748b;">Get all updates directly on your phone.</p>
                     <div class="price">FREE</div>
-                    <a href="https://wa.me/919306930312?text=Android%20App" class="btn-buy" style="background:var(--orange)">Download APK</a>
+                    <a href="https://wa.me/919306930312?text=Send%20me%20App%20Download%20Link" class="btn-action" style="background:var(--orange);">Download APK</a>
                 </div>
             </div>
         </div>
@@ -124,23 +142,32 @@
     </div>
 
     <div class="mobile-nav">
-        <a href="#" class="nav-item active"><div>🏠</div>Home</a>
-        <a href="https://wa.me/919306930312" class="nav-item"><div>💻</div>PC Soft</a>
-        <a href="https://wa.me/919306930312" class="nav-item"><div>📱</div>Apps</a>
-        <a href="https://wa.me/919306930312" class="nav-item"><div>💬</div>Chat</a>
+        <a href="#" class="nav-item active">
+            <div class="nav-icon">🏠</div>Home
+        </a>
+        <a href="https://wa.me/919306930312" class="nav-item">
+            <div class="nav-icon">💻</div>Software
+        </a>
+        <a href="https://wa.me/919306930312" class="nav-item">
+            <div class="nav-icon">📱</div>Apps
+        </a>
+        <a href="https://wa.me/919306930312" class="nav-item">
+            <div class="nav-icon">💬</div>Support
+        </a>
     </div>
 
-    <a href="https://wa.me/919306930312" class="whatsapp-float">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="30" alt="WA">
+    <a href="https://wa.me/919306930312" class="whatsapp-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35" height="35" alt="WA">
     </a>
 
     <script>
+        // Splash Screen Loading Logic
         window.addEventListener('load', function() {
             setTimeout(function() {
                 const splash = document.getElementById('splash');
                 splash.style.opacity = '0';
-                setTimeout(() => { splash.style.display = 'none'; }, 600);
-            }, 1000);
+                setTimeout(() => { splash.style.display = 'none'; }, 800);
+            }, 1200);
         });
     </script>
 
